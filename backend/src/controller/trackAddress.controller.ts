@@ -5,7 +5,7 @@ const trackAddress = async (req:Request, res: Response) => {
     const response = req.body;
     const address = response.address;
     const amount = Number(response.amount)
-    const userId = req.query.userId
+    const userId = Number(req.query.userId)
 
     console.log("userid", userId)
 
@@ -19,7 +19,9 @@ const trackAddress = async (req:Request, res: Response) => {
 
     const data = await prisma.trackAccounts.findFirst({
         where: {
-            accountAddress: address
+            AND: [
+                {userId}, {accountAddress:address}
+            ]
         }
     })
 
